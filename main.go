@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 // type rang [2]int
@@ -89,7 +88,7 @@ func main() {
 // [[1, 2, 3], [4, 5, 6], [0, 7, 8], [0, 0, 0]]
 // [[1, 2, 3], [4, 5, 6], [0, 7, 8], [9, 0, 0]]
 // [[1, 2, 3], [4, 5, 6], [0, 7, 8], [0, 0, 9]]
-func parseInts(ipAddr string, buff *[4][3]byte) (int, int, int, int) {
+func parseInts(ipAddr string, buff *[4][3]byte) (byte, byte, byte, byte) {
 	for i, j, I := 0, 0, 0; I <= len(ipAddr); I++ {
 		if I == len(ipAddr) || ipAddr[I] == '.' {
 			// Move [1, 0, 0] to [0, 0, 1]
@@ -112,25 +111,13 @@ func parseInts(ipAddr string, buff *[4][3]byte) (int, int, int, int) {
 		j++
 	}
 
-	a, err := strconv.Atoi(string(buff[0][:]))
-	if err != nil {
-		panic(err)
-	}
+	return byteMerge(buff[0]), byteMerge(buff[1]), byteMerge(buff[2]), byteMerge(buff[3])
+}
 
-	b, err := strconv.Atoi(string(buff[1][:]))
-	if err != nil {
-		panic(err)
-	}
+func byteMerge(b [3]byte) (res byte) {
+	res += b[2]
+	res += b[1] * 10
+	res += b[0] * 100
 
-	c, err := strconv.Atoi(string(buff[2][:]))
-	if err != nil {
-		panic(err)
-	}
-
-	d, err := strconv.Atoi(string(buff[3][:]))
-	if err != nil {
-		panic(err)
-	}
-
-	return a, b, c, d
+	return
 }
