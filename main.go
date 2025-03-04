@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 )
 
 // type rang [2]int
@@ -50,11 +49,12 @@ func main() {
 
 	defer file.Close()
 
+	ParseIPBuff := [4][3]byte{}
+
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
-		groups := strings.Split(line, ".")
-		a, b, c, d := strToInt(groups[0]), strToInt(groups[1]), strToInt(groups[2]), strToInt(groups[3])
+		a, b, c, d := parseInts(line, &ParseIPBuff)
 		if arr[a] == nil {
 			arr[a] = make([][][256]bool, 256)
 		}
@@ -71,10 +71,59 @@ func main() {
 	fmt.Println("THE ANSWER: ", count)
 }
 
-func strToInt(s string) int {
-	in, err := strconv.Atoi(s)
+func parseInts(ipAddr string, buff *[4][3]byte) (int, int, int, int) {
+	num := 0
+	i := 0
+	for _, v := range ipAddr {
+		if v == '.' {
+			if i == 1 {
+				buff[num][2] = buff[num][0]
+				buff[num][1] = '0'
+				buff[num][0] = '0'
+			} else if i == 2 {
+				buff[num][2] = buff[num][1]
+				buff[num][1] = buff[num][0]
+				buff[num][0] = '0'
+			}
+
+			num++
+			i = 0
+			continue
+		}
+
+		buff[num][i] = byte(v)
+		i++
+	}
+
+	if i == 1 {
+		buff[num][2] = buff[num][0]
+		buff[num][1] = '0'
+		buff[num][0] = '0'
+	} else if i == 2 {
+		buff[num][2] = buff[num][1]
+		buff[num][1] = buff[num][0]
+		buff[num][0] = '0'
+	}
+
+	a, err := strconv.Atoi(string(buff[0][:]))
 	if err != nil {
 		panic(err)
 	}
-	return in
+
+	b, err := strconv.Atoi(string(buff[1][:]))
+	if err != nil {
+		panic(err)
+	}
+
+	c, err := strconv.Atoi(string(buff[2][:]))
+	if err != nil {
+		panic(err)
+	}
+
+	d, err := strconv.Atoi(string(buff[3][:]))
+	if err != nil {
+		panic(err)
+	}
+
+	return a, b, c, d
 }
