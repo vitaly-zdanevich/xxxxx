@@ -90,37 +90,26 @@ func main() {
 // [[1, 2, 3], [4, 5, 6], [0, 7, 8], [9, 0, 0]]
 // [[1, 2, 3], [4, 5, 6], [0, 7, 8], [0, 0, 9]]
 func parseInts(ipAddr string, buff *[4][3]byte) (int, int, int, int) {
-	num := 0
-	i := 0
-	for _, v := range ipAddr {
-		if v == '.' {
-			if i == 1 {
-				buff[num][2] = buff[num][0]
-				buff[num][1] = '0'
-				buff[num][0] = '0'
-			} else if i == 2 {
-				buff[num][2] = buff[num][1]
-				buff[num][1] = buff[num][0]
-				buff[num][0] = '0'
+	for i, j, I := 0, 0, 0; I <= len(ipAddr); I++ {
+		if I == len(ipAddr) || ipAddr[I] == '.' {
+			// Move [1, 0, 0] to [0, 0, 1]
+			if j == 1 {
+				buff[i][2] = buff[i][0]
+				buff[i][1] = '0'
+				buff[i][0] = '0'
+			} else if j == 2 {
+				buff[i][2] = buff[i][1]
+				buff[i][1] = buff[i][0]
+				buff[i][0] = '0'
 			}
 
-			num++
-			i = 0
+			i++
+			j = 0
 			continue
 		}
 
-		buff[num][i] = byte(v)
-		i++
-	}
-
-	if i == 1 {
-		buff[num][2] = buff[num][0]
-		buff[num][1] = '0'
-		buff[num][0] = '0'
-	} else if i == 2 {
-		buff[num][2] = buff[num][1]
-		buff[num][1] = buff[num][0]
-		buff[num][0] = '0'
+		buff[i][j] = byte(ipAddr[I])
+		j++
 	}
 
 	a, err := strconv.Atoi(string(buff[0][:]))
