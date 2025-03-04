@@ -9,3 +9,5 @@ real	10m14.562s
 user	14m4.333s
 sys	0m24.767s
 ```
+
+[My hardware](https://pcpartpicker.com/user/vitaly-zdanevich/builds/#view=6cBcCJ)
