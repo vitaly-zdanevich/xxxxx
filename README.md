@@ -5,9 +5,9 @@ Peak RAM:
 ```
 THE ANSWER:  1000000000
 
-real	10m14.562s
-user	14m4.333s
-sys	0m24.767s
+real	9m41.779s
+user	9m38.701s
+sys	0m23.720s
 ```
 
 [My hardware](https://pcpartpicker.com/user/vitaly-zdanevich/builds/#view=6cBcCJ)

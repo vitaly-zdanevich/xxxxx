@@ -41,7 +41,7 @@ import (
 func main() {
 	count := 0
 
-	arr := make([][][][]bool, 256)
+	arr := make([][][][256]bool, 256)
 
 	file, err := os.Open("ip_addresses")
 	if err != nil {
@@ -56,13 +56,10 @@ func main() {
 		groups := strings.Split(line, ".")
 		a, b, c, d := strToInt(groups[0]), strToInt(groups[1]), strToInt(groups[2]), strToInt(groups[3])
 		if arr[a] == nil {
-			arr[a] = make([][][]bool, 256)
+			arr[a] = make([][][256]bool, 256)
 		}
 		if arr[a][b] == nil {
-			arr[a][b] = make([][]bool, 256)
-		}
-		if arr[a][b][c] == nil {
-			arr[a][b][c] = make([]bool, 256)
+			arr[a][b] = make([][256]bool, 256)
 		}
 		if arr[a][b][c][d] {
 			continue
