@@ -51,6 +51,7 @@ func main() {
 
 	ParseIPBuff := [4][3]byte{}
 
+	// TODO try custom reader - to have less allocations
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
